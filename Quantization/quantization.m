@@ -1,21 +1,16 @@
-function [ out_image ] = quantization( input_image,layers )
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-gray_scale=255;
-slide_size=gray_scale/layers; 
+function [ out_image ] = quantization( input_image,levels,scale )
+%quantization Uniform scalar quantization
+if nargin==2, scale=256; end 
+cluster_size=scale/levels; 
 
 out_image=zeros(size(input_image));
 
 for i =  1:size(input_image,1)
    for j = 1:size(input_image,2)
-     aux=0;
-       while(aux<input_image(i,j))
-         aux = aux + slide_size;
-       end
-         out_image(i,j)=round(aux-slide_size/2);
+         out_image(i,j) = round((input_image(i,j)/cluster_size-cluster_size)/2);
    end
 end
 
-
+out_image = uint8(out_image);
 end
 
