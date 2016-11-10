@@ -12,13 +12,13 @@ function haar_matrix = haar_transform(original_matrix)
 end
 
 function haar_matrix = haar_pass(matrix)
-    haar_matrix = zeros(size(matrix,1),size(matrix,2));
+    haar_matrix = zeros(size(matrix,1),size(matrix,2),'double');
     half_col = size(matrix,2)/2;
     for row = 1:size(matrix,1)
         i = 1;
         for col = 1:2:size(matrix,2)
-            haar_matrix(row,i) = (double(matrix(row,col))+ double(matrix(row,col+1)))/2;
-            c = (double(matrix(row,col)) - double(matrix(row,col+1)))/2;
+            haar_matrix(row,i) = (double(matrix(row,col)) + double(matrix(row,col+1)))/2.0;
+            c = (double(matrix(row,col)) - double(matrix(row,col+1)))/2.0;
             haar_matrix(row,i+half_col) = c ;
             i = i + 1;
         end

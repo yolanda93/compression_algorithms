@@ -1,5 +1,5 @@
 function quantized_matrix = quantize_matrix(matrix, new_bytesize)
-    quantized_matrix = zeros(size(matrix,1),size(matrix,2),'uint8');
+    quantized_matrix = zeros(size(matrix,1),size(matrix,2),'double');
     for row = 1:size(matrix,1)
         for col = 1:size(matrix,2)
             quantized_matrix(row,col) = quantize(matrix(row,col), new_bytesize);
