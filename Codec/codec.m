@@ -14,7 +14,7 @@ sub22 = lena_haar(257:512,1:256);
 sub23 = lena_haar(257:512,257:512);
 figure
 subplot(4,4,1)
-imshow(sub11)
+imshow(sub11,[0,255])
 subplot(4,4,2)
 imshow(sub12)
 subplot(4,4,5)
@@ -126,10 +126,10 @@ dq_lena(257:512,1:256) = dequantize_matrix(q_lena(257:512,1:256),5,8);
 dq_lena(257:512,257:512) = dequantize_matrix(q_lena(257:512,257:512),4,8);
 
 synth_lena = haar_reverse_multilevel(dq_lena,2);
-imshow(synth_lena)
+imshow(synth_lena,[0,255])
 
 %%%%%%%% PSNR calculation %%%%%%%%
-[PSNR,MSE,MAXERR,L2RAT] = measerr(lena_gray_512,synth_lena)
+[PSNR,MSE,MAXERR,L2RAT] = measerr(lena_gray_512,synth_lena);
 % measerr already provides the PSNR but we can calculate it again using the
 % formula: 10 * log10((255^2)/MSE)
 PSNR_2 = 10 * log10((255^2)/MSE);
