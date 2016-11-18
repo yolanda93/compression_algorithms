@@ -18,7 +18,7 @@ function haar_matrix = haar_pass(matrix)
         i = 1;
         for col = 1:2:size(matrix,2)
             haar_matrix(row,i) = (double(matrix(row,col)) + double(matrix(row,col+1)))/2.0;
-            haar_matrix(row,i+half_col) = (double(matrix(row,col)) - double(matrix(row,col+1)))/2.0; ;
+            haar_matrix(row,i+half_col) = (double(matrix(row,col)) - double(matrix(row,col+1)))/2.0;
             i = i + 1;
         end
     end
