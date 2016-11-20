@@ -38,15 +38,14 @@ min = 70000;
 for i = 1:size(MSE,1)
     for j = 1:size(MSE,2)
         if (MSE(i,j) < min)
-            min = MSE(i,j);
-            dx = j; dy = i;
+            min = MSE(i,j);dx = j; dy = i;                    
         end
     end
 end
 
 min_MSE = min;
-x_predicted = dx;
-y_predicted = dy;
+x_predicted = dx-p-1;
+y_predicted = dy-p-1;
 
 end
 

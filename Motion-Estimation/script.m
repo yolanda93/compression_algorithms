@@ -33,7 +33,7 @@ draw_Optical_Flow( reference_frame, motion_vect, block_size );
 hold off;
 
 % Peak Signal-to-Noise Ratio (PSNR) to measure the distortion of the frame which is estimated and the predicted one
-PSNR = image_PSNR(reference_frame, estimated_frame, 255);
-fprintf('Peak-Signal-To-Noise Rario: %d \n',PSNR);
+PSNR = image_PSNR(new_frame, estimated_frame);
+fprintf('Peak-Signal-To-Noise Ratio: %d \n',PSNR);
 
 

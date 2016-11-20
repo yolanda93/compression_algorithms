@@ -141,13 +141,21 @@ for i=1:3
     rightImage_dq(rows_r/2+1:rows_r, cols_r/2+1:cols_r,i) = dequantize_matrix(q_sub23_r(:,:,i),4,8);
     rightImage_synth(:,:,i) = haar_reverse_multilevel(rightImage_dq(:,:,i),2);
 end
-figure; image(uint8(rightImage_synth));
-figure; image(uint8(leftImage_synth));
+figure; image(uint8(rightImage_synth)), title('Right Image Synth');
+figure; image(uint8(leftImage_synth)), title('Left Image Synth');
 
-function paddedMatrix = paddingZeros(matrix, divisor)
-    %paddedMatrix = zeros(size(matrix,1), size(matrix,2), size(matrix,3));
-    rows = size(matrix,1);
-    cols = size(matrix,2);
-    paddedMatrix = wextend('ar','sym',matrix, round(rows/divisor)*divisor - rows, 'd');
-    paddedMatrix = wextend('ac','sym',paddedMatrix, round(cols/divisor)*divisor - cols, 'l');
-end
+% Encode each eye's image using filters of different (usually chromatically opposite) colors, red and blue
+rightImage_synth  = imtranslate(rightImage_synth,[10, 0]);
+
+figure,image(rightImage_synth), title('Anaglyph Synth');
+r = zeros(size(rightImage_synth));
+gb = zeros(size(leftImage_synth));
+r(:,:,1) = double(rightImage_synth(:,:,1));
+gb(:,:,2:3) = double(leftImage_synth(:,:,2:3));
+anaglyph = uint8(r+gb);
+figure,image(anaglyph), title('Anaglyph Synth');
+
+% Create stereo anaglyph with Matlab function to check the result
+J = stereoAnaglyph(rightImage_synth,leftImage_synth);
+figure, image(uint8(J)), title('Anaglyph using Matlab function')
+
