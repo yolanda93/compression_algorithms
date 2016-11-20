@@ -9,5 +9,9 @@ end
 
 function quantization = quantize(pixel, new_bytesize)
     dif_levels = 2^(8-new_bytesize);
-    quantization=floor(double(pixel)/dif_levels);
+    if(pixel >= 0 )
+        quantization=floor(double(pixel)/dif_levels);
+    else
+        quantization=ceil(double(pixel)/dif_levels);
+    end
 end

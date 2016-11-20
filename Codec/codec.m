@@ -89,6 +89,7 @@ e_sub23 = shannonEntropy(q_sub23);
 h_sub23 = numel(huffmanCode(q_sub23))/numel(q_sub23);
 
 % We need to "stitch" all the pieces of q_lena together
+q_lena = zeros(size(lena_gray_512,1),size(lena_gray_512,2));
 q_lena(1:128,1:128) = q_sub11;
 q_lena(1:128,129:256) = q_sub12;
 q_lena(129:256,1:128) = q_sub13;
@@ -117,6 +118,7 @@ entropies = [e_sub11, e_sub12, e_sub13, e_sub14, e_sub21, e_sub22, e_sub23, e_le
 entropies
 
 %%%%%%%% SYNTHESIS %%%%%%%%%%%%%
+dq_lena = zeros(size(lena_gray_512,1),size(lena_gray_512,2));
 dq_lena(1:128,1:128) = q_lena(1:128,1:128);
 dq_lena(1:128,129:256) = dequantize_matrix(q_lena(1:128,129:256),7,8);
 dq_lena(129:256,1:128) = dequantize_matrix(q_lena(129:256,1:128),7,8);
@@ -126,6 +128,7 @@ dq_lena(257:512,1:256) = dequantize_matrix(q_lena(257:512,1:256),5,8);
 dq_lena(257:512,257:512) = dequantize_matrix(q_lena(257:512,257:512),4,8);
 
 synth_lena = haar_reverse_multilevel(dq_lena,2);
+figure
 imshow(synth_lena,[0,255])
 
 %%%%%%%% PSNR calculation %%%%%%%%
