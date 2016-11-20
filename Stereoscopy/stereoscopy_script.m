@@ -153,10 +153,18 @@ figure; image(uint8(leftImage_synth));
 anaglyph_synth = uint8(leftImage_synth+rightImage_synth);
 figure,image(anaglyph_synth), title('Synthesized Anaglyph')
 
-function paddedMatrix = paddingZeros(matrix, divisor)
-    %paddedMatrix = zeros(size(matrix,1), size(matrix,2), size(matrix,3));
-    rows = size(matrix,1);
-    cols = size(matrix,2);
-    paddedMatrix = wextend('ar','sym',matrix, round(rows/divisor)*divisor - rows, 'd');
-    paddedMatrix = wextend('ac','sym',paddedMatrix, round(cols/divisor)*divisor - cols, 'l');
-end
+%%% WIP %%%%%%
+% Encode each eye's image using filters of different (usually chromatically opposite) colors, red and blue
+rightImage_synth  = imtranslate(rightImage_synth,[10, 0]);
+
+figure,image(uint8(rightImage_synth)), title('Anaglyph Synth');
+r = zeros(size(rightImage_synth));
+gb = zeros(size(leftImage_synth));
+r(:,:,1) = double(rightImage_synth(:,:,1));
+gb(:,:,2:3) = double(leftImage_synth(:,:,2:3));
+anaglyph = uint8(r+gb);
+figure,image(anaglyph), title('Anaglyph Synth');
+
+% Create stereo anaglyph with Matlab function to check the result
+J = stereoAnaglyph(leftImage_synth, rightImage_synth);
+figure, image(uint8(J)), title('Anaglyph using Matlab function')
