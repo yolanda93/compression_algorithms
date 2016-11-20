@@ -100,22 +100,12 @@ q_lena(257:512,257:512) = q_sub23;
 e_lena = shannonEntropy(q_lena);
 h_lena = numel(huffmanCode(q_lena))/numel(q_lena); %q_lena in huffman code
 
-%sizeMap = containers.Map('KeyType','double', 'ValueType','any');
-%for row = 1:size(dict,1)
-%    keyCell = dict(row,1);
-%    valueCell = dict(row,2);
-%    code = valueCell{1};
-%    key = keyCell{1};
-%    sizeMap(key) = size(code,2);
-%end
-
-%SizeMap holds the lengths of all the symbols
-% TODO subtitute the symbols by their length and add all the elements
-% of the matrix, then divide by the nuelem of the matrix
 entropies = [e_sub11, e_sub12, e_sub13, e_sub14, e_sub21, e_sub22, e_sub23, e_lena;
             h_sub11, h_sub12, h_sub13, h_sub14, h_sub21, h_sub22, h_sub23, h_lena]';
  
 entropies
+compression_rates = 8./entropies; %original image has 8 bpp
+compression_rates
 
 %%%%%%%% SYNTHESIS %%%%%%%%%%%%%
 dq_lena = zeros(size(lena_gray_512,1),size(lena_gray_512,2));

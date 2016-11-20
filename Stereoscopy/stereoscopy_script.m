@@ -18,6 +18,8 @@ gb = zeros(size(rightImage));
 r(:,:,1) = double(leftImage(:,:,1));
 gb(:,:,2:3) = double(rightImage(:,:,2:3));
 anaglyph = uint8(r+gb);
+figure,image(uint8(r)), title('Red')
+figure,image(uint8(gb)), title('Cyan')
 figure,image(anaglyph), title('My Anaglyph')
 
 % Create stereo anaglyph with Matlab function to check the result
@@ -25,8 +27,8 @@ J = stereoAnaglyph(leftImage,rightImage);
 figure, image(uint8(J)), title('Anaglyph using Matlab function')
 
 % Use TD3 to code them using 2 decomposition layers
-leftImage_haar = zeros(size(leftImage,1),size(leftImage,2),size(leftImage,3));
-rightImage_haar =zeros(size(rightImage,1),size(rightImage,2),size(rightImage,3));
+leftImage_haar = zeros(size(r,1),size(r,2),size(r,3));
+rightImage_haar =zeros(size(gb,1),size(gb,2),size(gb,3));
 rows_l=size(leftImage,1);
 rows_r=size(rightImage,1);
 cols_l=size(leftImage,2);
@@ -40,7 +42,9 @@ sub22_l = zeros(rows_l/2,cols_l/2,3); sub22_r = zeros(rows_r/2,cols_r/2,3);
 sub23_l = zeros(rows_l/2,cols_l/2,3); sub23_r = zeros(rows_r/2,cols_r/2,3);
 
 for i=1:3
-    temp = leftImage(:,:,i);
+   % temp = leftImage(:,:,i);
+    temp = r(:,:,i);
+
     leftImage_haar(:,:,i) = haar_transform_multilevel(temp,2);
 
     sub11_l(:,:,i) = leftImage_haar(1:rows_l/4, 1:cols_l/4,i);
@@ -50,8 +54,9 @@ for i=1:3
     sub21_l(:,:,i) = leftImage_haar(1:rows_l/2, cols_l/2+1:cols_l,i);
     sub22_l(:,:,i) = leftImage_haar(rows_l/2+1:rows_l, 1:cols_l/2,i);
     sub23_l(:,:,i) = leftImage_haar(rows_l/2+1:rows_l, cols_l/2+1:cols_l,i);
-    
-    rightImage_haar(:,:,i) = haar_transform_multilevel(rightImage(:,:,i),2);
+
+    temp2 = gb(:,:,i);
+    rightImage_haar(:,:,i) = haar_transform_multilevel(temp2,2);
     sub11_r(:,:,i) = rightImage_haar(1:rows_l/4, 1:cols_l/4,i);
     sub12_r(:,:,i) = rightImage_haar(1:rows_l/4, cols_l/4+1:cols_l/2,i);
     sub13_r(:,:,i) = rightImage_haar(rows_l/4+1:rows_l/2, 1:cols_l/4,i);
@@ -132,7 +137,7 @@ for i=1:3
     leftImage_dq(rows_l/2+1:rows_l, cols_l/2+1:cols_l,i) = dequantize_matrix(q_sub23_l(:,:,i),4,8);
     leftImage_synth(:,:,i) = haar_reverse_multilevel(leftImage_dq(:,:,i),2);
 
-    rightImage_dq(1:rows_r/4, 1:cols_r/4,i)= q_sub11_l(:,:,i);
+    rightImage_dq(1:rows_r/4, 1:cols_r/4,i)= q_sub11_r(:,:,i);
     rightImage_dq(1:rows_r/4, cols_r/4+1:cols_r/2,i) = dequantize_matrix(q_sub12_r(:,:,i),4,8);
     rightImage_dq(rows_r/4+1:rows_r/2, 1:cols_r/4,i) = dequantize_matrix(q_sub13_r(:,:,i),4,8);
     rightImage_dq(rows_r/4+1:rows_r/2, cols_r/4+1:cols_r/2,i) = dequantize_matrix(q_sub14_r(:,:,i),4,8);
@@ -143,6 +148,10 @@ for i=1:3
 end
 figure; image(uint8(rightImage_synth));
 figure; image(uint8(leftImage_synth));
+
+%Anaglyph of the synthesis
+anaglyph_synth = uint8(leftImage_synth+rightImage_synth);
+figure,image(anaglyph_synth), title('Synthesized Anaglyph')
 
 function paddedMatrix = paddingZeros(matrix, divisor)
     %paddedMatrix = zeros(size(matrix,1), size(matrix,2), size(matrix,3));
