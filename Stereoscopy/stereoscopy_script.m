@@ -141,13 +141,13 @@ for i=1:3
     rightImage_dq(rows_r/2+1:rows_r, cols_r/2+1:cols_r,i) = dequantize_matrix(q_sub23_r(:,:,i),4,8);
     rightImage_synth(:,:,i) = haar_reverse_multilevel(rightImage_dq(:,:,i),2);
 end
-figure; image(uint8(rightImage_synth)), title('Right Image Synth');
-figure; image(uint8(leftImage_synth)), title('Left Image Synth');
+subplot(1,3,1),subimage(uint8(rightImage_synth)), title('Right Image Synth');
+subplot(2,3,2),subimage(uint8(leftImage_synth)), title('Left Image Synth');
 
 % Encode each eye's image using filters of different (usually chromatically opposite) colors, red and blue
 rightImage_synth  = imtranslate(rightImage_synth,[10, 0]);
 
-figure,image(rightImage_synth), title('Anaglyph Synth');
+subplot(3,3,3),subimage(rightImage_synth), title('Anaglyph Synth');
 r = zeros(size(rightImage_synth));
 gb = zeros(size(leftImage_synth));
 r(:,:,1) = double(rightImage_synth(:,:,1));

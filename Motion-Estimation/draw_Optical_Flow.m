@@ -3,7 +3,7 @@ function draw_Optical_Flow( reference_frame, motion_vect, block_size )
 
 [row, col] = size(reference_frame);
 mbCount = 1;
-subplot(2,2,4),subimage(reference_frame),title('Motion Vectors');
+subplot(2,2,4),subimage(uint8(reference_frame)),title('Motion Vectors');
 hold on;
 for i = 1:block_size:row-block_size
     for j = 1:block_size:col-block_size       

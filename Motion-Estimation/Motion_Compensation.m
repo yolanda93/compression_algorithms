@@ -21,7 +21,7 @@ for i = 1:block_size:row-block_size
         dx = motion_vect(2,vect_count);
         y_block = i + dy;
         x_block = j + dx;
-        if(y_block>=1&&x_block>=1&&dy~=0&&dx~=0)      
+        if(y_block>=1&&x_block>=1&&dy~=0&&dx~=0&& (y_block+block_size-1<size(reference_frame,1) && x_block+block_size-1<size(reference_frame,2)))      
             image_compensation(i:i+block_size-1,j:j+block_size-1) = reference_frame(y_block:y_block+block_size-1, x_block:x_block+block_size-1);
         end
         vect_count = vect_count + 1;

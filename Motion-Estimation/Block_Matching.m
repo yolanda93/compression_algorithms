@@ -28,7 +28,7 @@ for m=-p:p
             continue;
         else
             new_block =new_frame(new_xpos:new_xpos+(block_size-1),new_ypos:new_ypos+(block_size-1));
-            MSE(m+p+1,n+p+1)=double(mean2(((reference_block-new_block).^2)));
+            MSE(m+p+1,n+p+1)=double(mean2(((double(reference_block)-double(new_block)).^2)));
         end
     end
 end

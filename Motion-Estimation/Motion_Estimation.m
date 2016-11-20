@@ -12,7 +12,7 @@ function motion_vectors = Motion_Estimation(reference_frame, new_frame, block_si
 %
 
 [rows, cols] = size(reference_frame);
-motion_vectors = zeros(3,rows*cols/block_size^2);
+motion_vectors = zeros(3,round(rows*cols/block_size^2));
 
 vect_count = 1;
 for posx = 1:block_size:rows-block_size
