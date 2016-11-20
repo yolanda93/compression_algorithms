@@ -4,12 +4,12 @@ This repository contains a set of compression algorithms for multimedia data
 Table of contents
 =================
 
-Quantization algorithm 
-Haar Wavelet algorithm 
-Laplacian pyramid algorithm
-Codec	
-Motion Estimation	
+1. Quantization algorithm 
+2. Haar Wavelet algorithm 
+3. Laplacian pyramid algorithm
+4. Codec	
+5. Motion Estimation	
     Block Matching Algorithm	
     Motion Compensation	
     Distortion measurement	
-Stereoscopy
+6. Stereoscopy
